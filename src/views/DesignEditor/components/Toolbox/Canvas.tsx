@@ -47,7 +47,7 @@ const Canvas = () => {
           alignItems: "center",
         }}
       >
-        <Block onClick={() => setActiveSubMenu("CanvasFill")}>
+        {/* <Block onClick={() => setActiveSubMenu("CanvasFill")}>
           <Block
             $style={{
               height: "24px",
@@ -60,7 +60,7 @@ const Canvas = () => {
               border: "1px solid #dedede",
             }}
           />
-        </Block>
+        </Block> */}
       </Block>
     </Block>
   )

@@ -14,6 +14,7 @@ import { loadVideoEditorAssets } from "~/utils/video"
 import DesignTitle from "./DesignTitle"
 import { IDesign } from "~/interfaces/DesignEditor"
 import Github from "~/components/Icons/Github"
+import { generatePdfFromScenePreviews } from "../../utils/pdfMapper"
 
 const Container = styled<"div", {}, Theme>("div", ({ $theme }) => ({
   height: "64px",
@@ -64,7 +65,7 @@ const Navbar = () => {
     }
   }
 
-  const parsePresentationJSON = () => {
+  const parsePresentationJSON = async () => {
     const currentScene = editor.scene.exportToJSON()
 
     const updatedScenes = scenes.map((scn) => {
@@ -74,6 +75,7 @@ const Navbar = () => {
           duration: 5000,
           layers: currentScene.layers,
           name: currentScene.name,
+          frame: currentScene.frame,
         }
       }
       return {
@@ -81,6 +83,7 @@ const Navbar = () => {
         duration: 5000,
         layers: scn.layers,
         name: scn.name,
+        frame: currentScene.frame,
       }
     })
 
@@ -94,7 +97,15 @@ const Navbar = () => {
         metadata: {},
         preview: "",
       }
-      makeDownload(presentationTemplate)
+      // makeDownload(presentationTemplate)
+      const previews: string[] = []
+      for (const scene of updatedScenes) {
+        const preview = await editor.renderer.render(scene)
+        previews.push(preview as string)
+      }
+
+      // Generate PDF
+      await generatePdfFromScenePreviews(previews)
     } else {
       console.log("NO CURRENT DESIGN")
     }
@@ -149,7 +160,7 @@ const Navbar = () => {
       } else if (editorType === "PRESENTATION") {
         return parsePresentationJSON()
       } else {
-      return parseVideoJSON()
+        return parseVideoJSON()
       }
     }
   }
@@ -262,9 +273,9 @@ const Navbar = () => {
     // @ts-ignore
     <ThemeProvider theme={DarkTheme}>
       <Container>
-        <div style={{ color: "#ffffff" }}>
+        {/* <div style={{ color: "#ffffff" }}>
           <Logo size={36} />
-        </div>
+        </div> */}
         <DesignTitle />
         <Block $style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
           <input
@@ -302,7 +313,7 @@ const Navbar = () => {
               },
             }}
           >
-            Export
+            Export as PDF
           </Button>
           <Button
             size="compact"
@@ -319,13 +330,13 @@ const Navbar = () => {
             <Play size={24} />
           </Button>
 
-          <Button
+          {/* <Button
             size="compact"
             onClick={() => window.location.replace("https://github.com/angellikgh/react-design-editor")}
             kind={KIND.tertiary}
           >
             <Github size={24} />
-          </Button>
+          </Button> */}
         </Block>
       </Container>
     </ThemeProvider>

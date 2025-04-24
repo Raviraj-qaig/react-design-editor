@@ -12,23 +12,25 @@ import Elements from "./Elements"
 import Graphics from "./Graphics"
 import TextFill from "./TextFill"
 import PathFill from "./PathFill"
-import CanvasFill from "./CanvasFill"
 import TextEffects from "./TextEffects"
+
+import CanvasFill from "./CanvasFill"
+
 export default {
   StaticText: TextProperties,
   Text: Text,
   Customize: Customize,
   FontSelector: FontSelector,
-  Pixabay: Pixabay,
+  // Pixabay: Pixabay,
   Templates: Templates,
   Uploads: Uploads,
   Images: Images,
   Videos: Videos,
   Elements: Elements,
-  Graphics: Graphics,
+  // Graphics: Graphics,
   Layers: Layers,
   TextFill: TextFill,
   PathFill: PathFill,
-  CanvasFill: CanvasFill,
+  // CanvasFill: CanvasFill, // enable to change canvas background
   TextEffects: TextEffects,
 }

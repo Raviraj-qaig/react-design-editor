@@ -22,32 +22,41 @@ interface Options {
 const Common = () => {
   const zoomMin = 10
   const zoomMax = 240
-  const [options, setOptions] = React.useState<Options>({
-    zoomRatio: 20,
-  })
+  const [options, setOptions] = React.useState<Options>({ zoomRatio: 20 })
   const editor = useEditor()
   const zoomRatio: number = useZoomRatio()
 
   React.useEffect(() => {
-    setOptions({ ...options, zoomRatio: Math.round(zoomRatio * 100) })
-  }, [zoomRatio])
+    if (!editor) return
+    setOptions((prev) => ({
+      ...prev,
+      zoomRatio: Math.round(zoomRatio * 100),
+    }))
+  }, [zoomRatio, editor])
 
   const handleChange = (type: string, value: any) => {
-    if (value < 0) {
-      editor.zoom.zoomToRatio(zoomMin / 100)
-    } else if (value > zoomMax) {
-      editor.zoom.zoomToRatio(zoomMax / 100)
-    } else {
-      editor.zoom.zoomToRatio(value / 100)
+    const zoom = Math.max(zoomMin, Math.min(zoomMax, Number(value)))
+    editor.zoom.zoomToRatio(zoom / 100)
+  }
+
+  const handleUndo = () => {
+    if (editor && editor.history) {
+      editor.history.undo()
+    }
+  }
+
+  const handleRedo = () => {
+    if (editor && editor.history) {
+      editor.history.redo()
     }
   }
 
   return (
     <Container>
       <div>
-        <Button kind={KIND.tertiary} size={SIZE.compact}>
+        {/* <Button kind={KIND.tertiary} size={SIZE.compact}>
           <Icons.Layers size={20} />
-        </Button>
+        </Button> */}
       </div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Button kind={KIND.tertiary} size={SIZE.compact}>
@@ -64,27 +73,12 @@ const Common = () => {
             InnerThumb: () => null,
             ThumbValue: () => null,
             TickBar: () => null,
-            Root: {
-              style: { width: "140px" },
-            },
-            Thumb: {
-              style: {
-                height: "12px",
-                width: "12px",
-                paddingLeft: 0,
-              },
-            },
-            Track: {
-              style: {
-                paddingLeft: 0,
-                paddingRight: 0,
-              },
-            },
+            Root: { style: { width: "140px" } },
+            Thumb: { style: { height: "12px", width: "12px", paddingLeft: 0 } },
+            Track: { style: { paddingLeft: 0, paddingRight: 0 } },
           }}
           value={[options.zoomRatio]}
-          onChange={({ value }) => {
-            handleChange("zoomRatio", value[0])
-          }}
+          onChange={({ value }) => handleChange("zoomRatio", value[0])}
           min={zoomMin}
           max={zoomMax}
         />
@@ -108,19 +102,14 @@ const Common = () => {
           onChange={(e: any) => handleChange("zoomRatio", e.target.value)}
         />
       </div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "end" }}>
-        <Button kind={KIND.tertiary} size={SIZE.compact}>
-          <Icons.Refresh size={16} />
-        </Button>
-        <Button kind={KIND.tertiary} size={SIZE.compact}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "end" }}>  
+        <Button kind={KIND.tertiary} size={SIZE.compact} onClick={handleUndo}>
           <Icons.Undo size={22} />
         </Button>
-        <Button kind={KIND.tertiary} size={SIZE.compact}>
+        <Button kind={KIND.tertiary} size={SIZE.compact} onClick={handleRedo}>
           <Icons.Redo size={22} />
         </Button>
-        <Button kind={KIND.tertiary} size={SIZE.compact}>
-          <Icons.TimePast size={16} />
-        </Button>
+
       </div>
     </Container>
   )
