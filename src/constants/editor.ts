@@ -12,8 +12,36 @@ export enum SubMenuType {
 }
 
 export const SAMPLE_TEMPLATES = [
-    
+  {
+    preview: "https://via.placeholder.com/320x180.png?text=Template+1",
+    layers: [
+      {
+        type: "StaticText",
+        text: "Hello World",
+        fontFamily: "Arial",
+        fontURL: "https://fonts.gstatic.com/s/arial/v11/Arial-Regular.ttf",
+        fontSize: 24,
+        x: 50,
+        y: 50,
+      },
+    ],
+  },
+  {
+    preview: "https://via.placeholder.com/320x180.png?text=Template+2",
+    layers: [
+      {
+        type: "StaticText",
+        text: "Welcome!",
+        fontFamily: "Roboto",
+        fontURL: "https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxP.ttf",
+        fontSize: 30,
+        x: 100,
+        y: 100,
+      },
+    ],
+  },
 ]
+
 
 export const editorFonts = [
   {

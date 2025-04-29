@@ -14,7 +14,8 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,                          // ❌ change this
+    "outDir": "dist",                         // ✅ add this
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {

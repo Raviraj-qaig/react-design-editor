@@ -76,6 +76,7 @@ const Navbar = () => {
           layers: currentScene.layers,
           name: currentScene.name,
           frame: currentScene.frame,
+          metadata: {},
         }
       }
       return {
@@ -84,6 +85,7 @@ const Navbar = () => {
         layers: scn.layers,
         name: scn.name,
         frame: currentScene.frame,
+        metadata: {},
       }
     })
 
