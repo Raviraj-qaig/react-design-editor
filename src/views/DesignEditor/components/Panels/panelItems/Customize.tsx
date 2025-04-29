@@ -59,10 +59,10 @@ const Customize = () => {
       </Block>
       <Scrollable>
         <Block padding="0 1.5rem">
-          {/* <Block>
-            <ResizeTemplate />
-            <Block $style={{ fontSize: "14px", textAlign: "center", paddingTop: "0.35rem" }}>1080 x 1920px</Block>
-          </Block> */}
+          <Block>
+            {/* <ResizeTemplate /> */}
+            {/* <Block $style={{ fontSize: "14px", textAlign: "center", paddingTop: "0.35rem" }}>1080 x 1920px</Block> */}
+          </Block>
 
           <Block paddingTop="0.5rem">
             <div
@@ -186,6 +186,9 @@ const ResizeTemplate = () => {
       })
     }
   }, [frame])
+
+
+  
 
   const applyResize = () => {
     // @ts-ignore
